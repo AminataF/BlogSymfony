@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur notre page d'inscription !{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        {{ form_start(form)}}
+            {{ form_row(form.username, {
+                'label' : "Nom d'utilisateur",
+                'attr' : {'placeholder' : 'Nom d\'utilisateur'}
+            })}}
+            {{ form_row(form.email, {
+                'label' : "Adresse e-mail",
+                'attr' : {'placeholder' : 'adresse e-mail'}
+            })}}
+            {{ form_row(form.password, {
+                'label' : "Mot de passe",
+                'attr' : {'placeholder' : 'Votre mot de passe'}
+            })}}
+            {{ form_row(form.confirm_password, {
+                'label' : "Confirmation du mot de passe",
+                'attr' : {'placeholder' : 'Confirmer votre mot de passe'}
+            })}}
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        {{ form_end(form)}}
+    </div>
+{% endblock %}

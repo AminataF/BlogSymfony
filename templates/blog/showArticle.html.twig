@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+    <article class="mt-3 mb-3">
+        <h2>{{ article.titLe}}</h2>
+        <div class="metadata">Ecrit le {{article.createdAt | date("m/d/Y")}} à {{article.createdAt | date("H:i")}} dans la catégorie {{article.category.title}}</div>
+        <div class="content">
+            <img src="{{ article.image }}" alt="image de mon blog">
+            <p>
+                {{ article.content }}
+            </p>
+        </div>
+        {% if app.user %}
+            <a href="{{ path("edit_article", {'id' : article.id}) }}" class="btn btn-primary">Modifier l'article</a>
+        {% endif %}
+    </article>
+
+    <hr>
+
+    <h3>{{ article.comments | length }} : Commentaires</h3>
+    <section class="mt-3">
+        {% for comment in article.comments %}
+            <div>
+                <div class="row">
+                    <div class="col-2">
+                        {{ comment.author }}
+                        (<small>{{ comment.createdAt | date('d/m/Y à H:i')}}</small>)
+                    </div>
+                    <div class="col">
+                        <p>
+                            {{comment.content | raw}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+    <hr>
+    {% if app.user %}
+        <div class="mt-3">
+            {{ form_start(commentForm)}}
+                {{form_row(commentForm.author, {
+                    'label': 'Nom',
+                    'attr' : { 'placeholder' : 'Votre nom'}
+                })}}
+                {{form_row(commentForm.content, {
+                    'label': 'Commentaire',
+                    'attr' : { 'placeholder' : 'Votre commentaire'}
+                })}}
+                <button type="submt" class="btn btn-success mt-3 mb-3">Envoyer</button>
+            {{ form_end(commentForm)}}
+        </div>
+    {% else %}
+        <h3>Vous ne pouvez commenter sans être conncté ou inscrit(e)</h3>
+        <div class="align-middle">
+            <a href="{{ path('security_login')}}" class="btn btn-dark ">Connexion</a>
+            <a href="{{ path('security_registration')}}" class="btn btn-dark">Inscription</a>
+        </div>
+
+    {% endif %}
+{% endblock %}
